@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700|Roboto:400,500,700" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <title>EuropeanValues Results</title>
+    <link rel="icon" type="x-icon" href="icon.svg">
+    <link rel="shortcut icon" type="x-icon" href="icon.svg">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>version = "First Version";</script>
+</head>
+<script type="application/javascript" src="ideologies.js"></script>
+<body>
+    <h1>EuropeanValues v1.0</h1>
+    <hr>
+    <h2 style="text-align: center; margin-top: 0;">Results</h2>
+
+    <!-- Integration Axis -->
+    <div class="axis-wrapper">
+        <div class="axis-title">
+            <span>Integration Axis</span>
+            <span class="weight-300" id="integration-label"></span>
+        </div>
+        <div class="axis">
+            <img class="axis-icon" id="img-europeanism" src="value_images/europeanism.svg" alt="Europeanism"/>
+            <div class="axis-track">
+                <div class="bar europeanism" id="bar-europeanism"><div class="text-wrapper" id="europeanism"></div></div>
+                <div class="bar euroscepticism" id="bar-euroscepticism"><div class="text-wrapper" id="euroscepticism"></div></div>
+            </div>
+            <img class="axis-icon" id="img-euroscepticism" src="value_images/euroscepticism.svg" alt="Euroscepticism"/>
+        </div>
+    </div>
+
+    <!-- Economic Axis -->
+    <div class="axis-wrapper">
+        <div class="axis-title">
+            <span>Economic Axis</span>
+            <span class="weight-300" id="economy-label"></span>
+        </div>
+        <div class="axis">
+            <img class="axis-icon" id="img-socialism" src="value_images/socialism.svg" alt="Socialism"/>
+            <div class="axis-track">
+                <div class="bar socialism" id="bar-socialism"><div class="text-wrapper" id="socialism"></div></div>
+                <div class="bar liberalism" id="bar-liberalism"><div class="text-wrapper" id="liberalism"></div></div>
+            </div>
+            <img class="axis-icon" id="img-liberalism" src="value_images/liberalism.svg" alt="Liberalism"/>
+        </div>
+    </div>
+
+    <!-- Culture Axis -->
+    <div class="axis-wrapper">
+        <div class="axis-title">
+            <span>Culture Axis</span>
+            <span class="weight-300" id="culture-label"></span>
+        </div>
+        <div class="axis">
+            <img class="axis-icon" id="img-progressivism" src="value_images/progressivism.svg" alt="Progressivism"/>
+            <div class="axis-track">
+                <div class="bar progressivism" id="bar-progressivism"><div class="text-wrapper" id="progressivism"></div></div>
+                <div class="bar conservatism" id="bar-conservatism"><div class="text-wrapper" id="conservatism"></div></div>
+            </div>
+            <img class="axis-icon" id="img-conservatism" src="value_images/conservatism.svg" alt="Conservatism"/>
+        </div>
+    </div>
+
+    <!-- Ecology Axis -->
+    <div class="axis-wrapper">
+        <div class="axis-title">
+            <span>Ecology Axis</span>
+            <span class="weight-300" id="ecology-label"></span>
+        </div>
+        <div class="axis">
+            <img class="axis-icon" id="img-ecologism" src="value_images/ecologism.svg" alt="Ecologism"/>
+            <div class="axis-track">
+                <div class="bar ecologism" id="bar-ecologism"><div class="text-wrapper" id="ecologism"></div></div>
+                <div class="bar productivism" id="bar-productivism"><div class="text-wrapper" id="productivism"></div></div>
+            </div>
+            <img class="axis-icon" id="img-productivism" src="value_images/productivism.svg" alt="Productivism"/>
+        </div>
+    </div>
+
+    <!-- Geopolitics Axis -->
+    <div class="axis-wrapper">
+        <div class="axis-title">
+            <span>Geopolitics Axis</span>
+            <span class="weight-300" id="foreign-label"></span>
+        </div>
+        <div class="axis">
+            <img class="axis-icon" id="img-atlanticism" src="value_images/atlanticism.svg" alt="Atlanticism"/>
+            <div class="axis-track">
+                <div class="bar atlanticism" id="bar-atlanticism"><div class="text-wrapper" id="atlanticism"></div></div>
+                <div class="bar continentalism" id="bar-continentalism"><div class="text-wrapper" id="continentalism"></div></div>
+            </div>
+            <img class="axis-icon" id="img-continentalism" src="value_images/continentalism.svg" alt="Continentalism"/>
+        </div>
+    </div>
+
+    <h2 style="text-align: center; margin-top: 2.5rem;">Closest Match: <span style="color: #60a5fa;" id="ideology-label"></span></h2>
+    <hr/>
+    <img src="" id="banner" alt="EuropeanValues Results Card">
+
+    <div class="small-button-container">
+        <button class="small_button" onclick="location.href='index.html';">Back to Home</button>
+    </div>
+
+    <script>
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) { return pair[1]; }
+            }
+            return NaN;
+        }
+
+        function setBarValue(name, value) {
+            var innerel = document.getElementById(name);
+            var outerel = document.getElementById("bar-" + name);
+            outerel.style.width = (value + "%");
+            innerel.innerHTML = (value + "%");
+            // Hide text cleanly if bar width is too narrow
+            if (parseFloat(value) < 14) {
+                innerel.style.display = "none";
+            } else {
+                innerel.style.display = "inline-block";
+            }
+        }
+
+        integrationArray = ["Pan-Europeanist", "Federalist", "Europhile", "Balanced", "Soft Eurosceptic", "Sovereignist", "Hard Eurosceptic"];
+        economyArray     = ["Democratic Socialist", "Socialist", "Social Democrat", "Mixed Market", "Ordo-Liberal", "Market Liberal", "Laissez-Faire Liberal"];
+        cultureArray     = ["Radical Progressive", "Progressive", "Reformist", "Centrist", "Conservative", "Traditionalist", "Reactionary"];
+        ecologyArray     = ["Deep Ecologist", "Green Transitionist", "Eco-Reformer", "Sustainable", "Productivist", "Industrialist", "Hard Productivist"];
+        foreignArray     = ["Hard Atlanticist", "Atlanticist", "Pro-NATO", "Neutralist", "Continentalist", "Strategic Autonomist", "Eurasianist"];
+
+        function setLabel(val, ary) {
+            if (val > 100) return "";
+            if (val > 90) return ary[0];
+            if (val > 75) return ary[1];
+            if (val > 60) return ary[2];
+            if (val >= 40) return ary[3];
+            if (val >= 25) return ary[4];
+            if (val >= 10) return ary[5];
+            if (val >= 0) return ary[6];
+            return "";
+        }
+
+        var europeanism    = getQueryVariable("i") || 50;
+        var socialism      = getQueryVariable("e") || 50;
+        var progressivism  = getQueryVariable("c") || 50;
+        var ecologism      = getQueryVariable("g") || 50;
+        var atlanticism    = getQueryVariable("f") || 50;
+
+        var euroscepticism = (100 - europeanism).toFixed(1);
+        var liberalism     = (100 - socialism).toFixed(1);
+        var conservatism   = (100 - progressivism).toFixed(1);
+        var productivism   = (100 - ecologism).toFixed(1);
+        var continentalism = (100 - atlanticism).toFixed(1);
+
+        setBarValue("europeanism", europeanism);
+        setBarValue("euroscepticism", euroscepticism);
+        setBarValue("socialism", socialism);
+        setBarValue("liberalism", liberalism);
+        setBarValue("progressivism", progressivism);
+        setBarValue("conservatism", conservatism);
+        setBarValue("ecologism", ecologism);
+        setBarValue("productivism", productivism);
+        setBarValue("atlanticism", atlanticism);
+        setBarValue("continentalism", continentalism);
+
+        document.getElementById("integration-label").innerHTML = setLabel(europeanism, integrationArray);
+        document.getElementById("economy-label").innerHTML     = setLabel(socialism, economyArray);
+        document.getElementById("culture-label").innerHTML     = setLabel(progressivism, cultureArray);
+        document.getElementById("ecology-label").innerHTML     = setLabel(ecologism, ecologyArray);
+        document.getElementById("foreign-label").innerHTML     = setLabel(atlanticism, foreignArray);
+
+        var ideology = "";
+        var ideodist = Infinity;
+        if (typeof ideologies !== 'undefined') {
+            for (var i = 0; i < ideologies.length; i++) {
+                var dist = 0;
+                dist += Math.pow(Math.abs(ideologies[i].stats.integration - europeanism), 2);
+                dist += Math.pow(Math.abs(ideologies[i].stats.economy - socialism), 2);
+                dist += Math.pow(Math.abs(ideologies[i].stats.culture - progressivism), 2);
+                dist += Math.pow(Math.abs(ideologies[i].stats.ecology - ecologism), 2);
+                dist += Math.pow(Math.abs(ideologies[i].stats.foreign - atlanticism), 2);
+                if (dist < ideodist) {
+                    ideology = ideologies[i].name;
+                    ideodist = dist;
+                }
+            }
+        }
+        document.getElementById("ideology-label").innerHTML = ideology;
+
+        // Render Canvas Banner in Dark Mode
+        window.onload = function() {
+            var c = document.createElement("canvas");
+            var ctx = c.getContext("2d");
+            c.width = 800;
+            c.height = 780;
+
+            // Background
+            ctx.fillStyle = "#0f111a";
+            ctx.fillRect(0, 0, 800, 780);
+
+            // Card surface
+            ctx.fillStyle = "#181c28";
+            ctx.beginPath();
+            ctx.roundRect(15, 15, 770, 750, 16);
+            ctx.fill();
+
+            var drawIcons = [
+                ["img-europeanism", 30, 175], ["img-euroscepticism", 690, 175],
+                ["img-socialism", 30, 295],   ["img-liberalism", 690, 295],
+                ["img-progressivism", 30, 415], ["img-conservatism", 690, 415],
+                ["img-ecologism", 30, 535],   ["img-productivism", 690, 535],
+                ["img-atlanticism", 30, 655], ["img-continentalism", 690, 655]
+            ];
+            drawIcons.forEach(item => {
+                var el = document.getElementById(item[0]);
+                if (el) ctx.drawImage(el, item[1], item[2], 80, 80);
+            });
+
+            // Modern color definitions matching CSS
+            var colors = {
+                europeanism: "#2563eb",
+                euroscepticism: "#ea580c",
+                socialism: "#e11d48",
+                liberalism: "#f59e0b",
+                progressivism: "#9333ea",
+                conservatism: "#0284c7",
+                ecologism: "#059669",
+                productivism: "#64748b",
+                atlanticism: "#0ea5e9",
+                continentalism: "#7c3aed"
+            };
+
+            var barPairs = [
+                { y: 195, leftVal: europeanism, rightVal: euroscepticism, leftCol: colors.europeanism, rightCol: colors.euroscepticism, label: "Integration: " + document.getElementById("integration-label").innerHTML },
+                { y: 315, leftVal: socialism, rightVal: liberalism, leftCol: colors.socialism, rightCol: colors.liberalism, label: "Economy: " + document.getElementById("economy-label").innerHTML },
+                { y: 435, leftVal: progressivism, rightVal: conservatism, leftCol: colors.progressivism, rightCol: colors.conservatism, label: "Culture: " + document.getElementById("culture-label").innerHTML },
+                { y: 555, leftVal: ecologism, rightVal: productivism, leftCol: colors.ecologism, rightCol: colors.productivism, label: "Ecology: " + document.getElementById("ecology-label").innerHTML },
+                { y: 675, leftVal: atlanticism, rightVal: continentalism, leftCol: colors.atlanticism, rightCol: colors.continentalism, label: "Geopolitics: " + document.getElementById("foreign-label").innerHTML }
+            ];
+
+            barPairs.forEach(bp => {
+                // Track Background
+                ctx.fillStyle = "#0f111a";
+                ctx.beginPath();
+                ctx.roundRect(125, bp.y, 550, 48, 24);
+                ctx.fill();
+
+                // Left & Right Bar
+                var leftW = (bp.leftVal / 100) * 550;
+                var rightW = 550 - leftW;
+
+                ctx.save();
+                ctx.beginPath();
+                ctx.roundRect(125, bp.y, 550, 48, 24);
+                ctx.clip();
+
+                ctx.fillStyle = bp.leftCol;
+                ctx.fillRect(125, bp.y, leftW, 48);
+
+                ctx.fillStyle = bp.rightCol;
+                ctx.fillRect(125 + leftW, bp.y, rightW, 48);
+                ctx.restore();
+
+                // Axis Title above track
+                ctx.fillStyle = "#94a3b8";
+                ctx.font = "500 16px Montserrat";
+                ctx.textAlign = "center";
+                ctx.fillText(bp.label, 400, bp.y - 10);
+
+                // Numbers
+                ctx.font = "700 18px Montserrat";
+                if (bp.leftVal >= 14) {
+                    ctx.textAlign = "left";
+                    ctx.fillStyle = "#ffffff";
+                    ctx.fillText(bp.leftVal + "%", 140, bp.y + 31);
+                }
+                if (bp.rightVal >= 14) {
+                    ctx.textAlign = "right";
+                    ctx.fillStyle = (bp.rightCol === colors.liberalism) ? "#1a1a1a" : "#ffffff";
+                    ctx.fillText(bp.rightVal + "%", 660, bp.y + 31);
+                }
+            });
+
+            // Header titles
+            ctx.textAlign = "left";
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "700 36px Montserrat";
+            ctx.fillText("EuropeanValues v1.0", 35, 75);
+
+            ctx.fillStyle = "#60a5fa";
+            ctx.font = "600 24px Montserrat";
+            ctx.fillText("Closest Match: " + ideology, 35, 115);
+
+            document.getElementById("banner").src = c.toDataURL();
+        };
+    </script>
+</body>
+</html>

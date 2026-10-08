@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700|Roboto:400,500,700" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <title>EuropeanValues Quiz</title>
+    <link rel="icon" type="x-icon" href="icon.svg">
+    <link rel="shortcut icon" type="x-icon" href="icon.svg">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <script type="application/javascript" src="questions.js"></script>
+
+    <h1>EuropeanValues</h1>
+    <h2 id="question-number">Loading question...</h2>
+
+    <div class="question-card" id="question-text">Loading text...</div>
+
+    <div class="button-container">
+        <button class="button" onclick="next_question(1.0)" style="background-color: var(--btn-strongly-agree);">Strongly Agree</button>
+        <button class="button" onclick="next_question(0.5)" style="background-color: var(--btn-agree);">Agree</button>
+        <button class="button" onclick="next_question(0.0)" style="background-color: var(--btn-neutral);">Neutral / Unsure</button>
+        <button class="button" onclick="next_question(-0.5)" style="background-color: var(--btn-disagree); color: #1a1a1a;">Disagree</button>
+        <button class="button" onclick="next_question(-1.0)" style="background-color: var(--btn-strongly-disagree);">Strongly Disagree</button>
+    </div>
+
+    <div class="small-button-container">
+        <button class="small_button" onclick="prev_question()" id="back_button">Back</button>
+        <button class="small_button_off" id="back_button_off">Back</button>
+    </div>
+
+    <script>
+        var max_integration, max_economy, max_culture, max_ecology, max_foreign;
+        max_integration = max_economy = max_culture = max_ecology = max_foreign = 0;
+        
+        var integration, economy, culture, ecology, foreign;
+        integration = economy = culture = ecology = foreign = 0;
+        
+        var qn = 0;
+        var prev_answer = null;
+
+        for (var i = 0; i < questions.length; i++) {
+            max_integration += Math.abs(questions[i].effect.integration);
+            max_economy     += Math.abs(questions[i].effect.economy);
+            max_culture     += Math.abs(questions[i].effect.culture);
+            max_ecology     += Math.abs(questions[i].effect.ecology);
+            max_foreign     += Math.abs(questions[i].effect.foreign);
+        }
+
+        init_question();
+
+        function init_question() {
+            document.getElementById("question-text").innerHTML = questions[qn].question;
+            document.getElementById("question-number").innerHTML = "Question " + (qn + 1) + " of " + questions.length;
+            if (prev_answer == null) {
+                document.getElementById("back_button").style.display = 'none';
+                document.getElementById("back_button_off").style.display = 'block';
+            } else {
+                document.getElementById("back_button").style.display = 'block';
+                document.getElementById("back_button_off").style.display = 'none';
+            }
+        }
+
+        function next_question(mult) {
+            integration += mult * questions[qn].effect.integration;
+            economy     += mult * questions[qn].effect.economy;
+            culture     += mult * questions[qn].effect.culture;
+            ecology     += mult * questions[qn].effect.ecology;
+            foreign     += mult * questions[qn].effect.foreign;
+            
+            qn++;
+            prev_answer = mult;
+            if (qn < questions.length) {
+                init_question();
+            } else {
+                results();
+            }
+        }
+
+        function prev_question() {
+            if (prev_answer == null) return;
+            qn--;
+            integration -= prev_answer * questions[qn].effect.integration;
+            economy     -= prev_answer * questions[qn].effect.economy;
+            culture     -= prev_answer * questions[qn].effect.culture;
+            ecology     -= prev_answer * questions[qn].effect.ecology;
+            foreign     -= prev_answer * questions[qn].effect.foreign;
+            prev_answer = null;
+            init_question();
+        }
+
+        function calc_score(score, max) {
+            if (max === 0) return (50).toFixed(1);
+            return (100 * (max + score) / (2 * max)).toFixed(1);
+        }
+
+        function results() {
+            location.href = `results.html`
+                + `?i=${calc_score(integration, max_integration)}`
+                + `&e=${calc_score(economy, max_economy)}`
+                + `&c=${calc_score(culture, max_culture)}`
+                + `&g=${calc_score(ecology, max_ecology)}`
+                + `&f=${calc_score(foreign, max_foreign)}`;
+        }
+    </script>
+</body>
+</html>
