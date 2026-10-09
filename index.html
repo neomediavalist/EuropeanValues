@@ -1,93 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700|Roboto:400,500,700" rel="stylesheet">
-    <link href="style.css" rel="stylesheet" type="text/css">
-    <title>EuropeanValues</title>
-    <link rel="icon" type="x-icon" href="icon.svg">
-    <link rel="shortcut icon" type="x-icon" href="icon.svg">
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update in Progress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #18181b;       
+            --card-bg: #27272a;        
+            --text-primary: #f4f4f5;   
+            --text-dim: #a1a1aa;       
+            --accent-primary: #d4d4d8; 
+            --radius-lg: 28px;
+            --soft-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            margin: 0;
+            padding: 24px;
+            min-height: 100vh;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .update-box {
+            background-color: var(--card-bg);
+            padding: 60px 50px;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            box-shadow: var(--soft-shadow);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 3.2rem;
+            margin: 0 0 20px 0;
+            color: var(--accent-primary);
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+        }
+
+        p {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            margin: 0;
+        }
+
+        @media (max-width: 800px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            p {
+                font-size: 1.1rem;
+            }
+            .update-box {
+                padding: 40px 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1 style="margin-top: 1.5rem;">EuropeanValues</h1>
-    <p style="text-align: center; font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 2rem;">
-        Discover your political orientation tailored specifically to the European ideological landscape.
-    </p>
 
-    <div class="button-container" style="margin-bottom: 2.5rem;">
-        <button class="button" onclick="location.href='instructions.html';" style="background-color: var(--color-europeanism); font-size: 1.35rem;">Click here to start!</button>
-        <button class="button" onclick="location.href='changelog.html';" style="background-color: var(--bg-surface-elevated); color: var(--text-secondary); font-size: 1.05rem;">Changelog</button>
-        <button class="button" onclick="location.href='https://neomediavalist.github.io/mytests/';" style="background-color: var(--bg-surface-elevated); color: var(--text-secondary); font-size: 1.05rem;">Other tests</button>
+    <div class="update-box">
+        <h1>Test is currently being updated</h1>
+        <p>It usually takes about 10 minutes.</p>
     </div>
 
-    <h2>What is EuropeanValues?</h2>
-    <p>
-        EuropeanValues is a political quiz based on <a href="https://bannnedb.github.io/AmericanValues-2/">AmericanValues 2</a> (which is based on <a href="https://8values.github.io/">8values</a>), but tailored specifically to the political climate, treaties, and socio-economic systems of Europe. You will be presented with a statement, and you will answer with your opinion from <b>Strongly Agree</b> to <b>Strongly Disagree</b>, with each answer slightly affecting your scores.
-    </p>
-    <p>
-        There are <b style="color: #60a5fa;"><span id="numOfQuestions"></span> questions</b> in the test.
-    </p>
-
-    <h2>What are the European Values?</h2>
-    <p>There are five independent axes, each contrasting two competing perspectives:</p>
-
-    <div class="values-grid">
-        <div class="value-card">
-            <b style="color: var(--color-europeanism);">Europeanism</b>
-            <p>Favors deeper European integration, supranational institutions, pooled sovereignty, and moving toward a federal Europe.</p>
-        </div>
-        <div class="value-card">
-            <b style="color: var(--color-euroscepticism);">Euroscepticism</b>
-            <p>Advocates for national sovereignty, intergovernmental subsidiarity, border controls, and returning power to nation-states.</p>
-        </div>
-        <div class="value-card">
-            <b style="color: var(--color-socialism);">Socialism</b>
-            <p>Believes in universal welfare, labor protections, progressive taxation, and strategic public ownership of infrastructure.</p>
-        </div>
-        <div class="value-card">
-            <b style="color: var(--color-liberalism);">Liberalism</b>
-            <p>Supports open single-market competition, labor deregulation, fiscal discipline, and privatization of state monopolies.</p>
-        </div>
-        <div class="value-card">
-            <b style="color: var(--color-progressivism);">Progressivism</b>
-            <p>Favors modern social reforms, secularism, cultural pluralism, and individual self-determination.</p>
-        </div>
-        <div class="value-card">
-            <b style="color: var(--color-conservatism);">Conservatism</b>
-            <p>Upholds traditional social institutions, Christian-democratic heritage, and cultural preservation.</p>
-        </div>
-        <div class="value-card">
-            <b style="color: var(--color-ecologism);">Ecologism</b>
-            <p>Prioritizes emissions reductions, environmental mandates, biodiversity, and an accelerated green energy transition.</p>
-        </div>
-        <div class="value-card">
-            <b style="color: var(--color-productivism);">Productivism</b>
-            <p>Prioritizes industrial output, energy affordability, farmer protections, and economic growth over green restrictions.</p>
-        </div>
-        <div class="value-card">
-            <b style="color: var(--color-atlanticism);">Atlanticism</b>
-            <p>Prioritizes close alignment with the United States and the NATO collective defense framework.</p>
-        </div>
-        <div class="value-card">
-            <b style="color: var(--color-continentalism);">Continentalism</b>
-            <p>Advocates for European strategic autonomy, independent military capability, and an autonomous diplomatic line.</p>
-        </div>
-        <div class="value-card">
-        <b style="color: var(--color-sanctuary);">Sanctuary Europe</b>
-        <p>Prioritizes universal human rights, generous asylum protections, state-supported maritime search-and-rescue, and legal migration corridors.</p>
-    </div>
-    <div class="value-card">
-        <b style="color: var(--color-fortress);">Fortress Europe</b>
-        <p>Prioritizes hardened external border walls, Frontex interdiction, third-country offshore processing centers, and rapid deportations.</p>
-    </div>
-    </div>
-
-    <script type="application/javascript" src="questions.js"></script>
-    <script type="text/javascript">
-        if (typeof questions !== 'undefined') {
-            document.getElementById("numOfQuestions").innerHTML = questions.length;
-        }
-    </script>
 </body>
 </html>
