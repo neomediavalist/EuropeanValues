@@ -5,22 +5,24 @@
     --bg-surface-elevated: #212637;
     --border-subtle: rgba(255, 255, 255, 0.08);
     --border-active: rgba(255, 255, 255, 0.18);
-    
+
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
-    
-    /* Pleasant Axis Colors */
+
+    /* Axis Colors */
     --color-europeanism: #2563eb;
     --color-euroscepticism: #ea580c;
     --color-socialism: #e11d48;
-    --color-liberalism: #f59e0b;
+    --color-liberalism: #e0920a;
     --color-progressivism: #9333ea;
     --color-conservatism: #0284c7;
     --color-ecologism: #059669;
     --color-productivism: #64748b;
     --color-atlanticism: #0ea5e9;
     --color-continentalism: #7c3aed;
+    --color-sanctuary: #06b6d4;
+    --color-fortress: #b91c1c;
 
     /* Quiz Button Palette */
     --btn-strongly-agree: #16a34a;
@@ -69,6 +71,18 @@ h1 {
     -webkit-text-fill-color: transparent;
 }
 
+/* Subdued version badge next to title */
+h1 .version-badge {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #94a3b8;
+    -webkit-text-fill-color: #94a3b8;
+    background: none;
+    vertical-align: middle;
+    margin-left: 0.45rem;
+    letter-spacing: normal;
+}
+
 h2 {
     font-size: 1.5rem;
     margin-top: 2rem;
@@ -79,7 +93,7 @@ hr {
     border: 0;
     height: 1px;
     background: var(--border-subtle);
-    margin: 1.75rem 0;
+    margin: 1.5rem 0;
 }
 
 p {
@@ -192,14 +206,14 @@ a:hover {
     cursor: not-allowed;
 }
 
-/* Result Axis Bars (FIXED & REDESIGNED) */
+/* Result Axis Bars & Layout */
 .axis-wrapper {
-    margin-bottom: 2rem;
+    margin-bottom: 1.15rem;
 }
 
 .axis-title {
-    font-size: 1.2rem;
-    margin-bottom: 0.6rem;
+    font-size: 1.15rem;
+    margin-bottom: 0.35rem;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -214,13 +228,34 @@ a:hover {
 div.axis {
     width: 100%;
     display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+}
+
+/* Icon column wrapper */
+.axis-node {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    width: 90px;
+    flex-shrink: 0;
+    text-align: center;
+    gap: 0.35rem;
+}
+
+.axis-node-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    line-height: 1.2;
+    user-select: none;
+    white-space: nowrap;
 }
 
 .axis-icon {
-    width: 64px;
-    height: 64px;
+    width: 80px;
+    height: 80px;
     flex-shrink: 0;
     border: none;
     background: transparent;
@@ -230,7 +265,6 @@ div.axis {
     display: block;
 }
 
-/* Unified pill track */
 .axis-track {
     flex: 1;
     height: 48px;
@@ -240,35 +274,38 @@ div.axis {
     overflow: hidden;
     display: flex;
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
+    position: relative;
+    margin-top: 16px;
 }
 
 div.bar {
     height: 100%;
-    display: flex;
-    align-items: center;
     box-sizing: border-box;
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-}
-
-div.bar:first-child {
-    justify-content: flex-start;
-    padding-left: 1rem;
-}
-
-div.bar:last-child {
-    justify-content: flex-end;
-    padding-right: 1rem;
+    position: static;
 }
 
 div.text-wrapper {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
     font-family: 'Montserrat', sans-serif;
     font-size: 1.05rem;
     font-weight: 700;
     color: #ffffff;
     white-space: nowrap;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
     user-select: none;
+    pointer-events: none;
+}
+
+div.bar:first-child div.text-wrapper {
+    left: 1.15rem;
+}
+
+div.bar:last-child div.text-wrapper {
+    right: 1.15rem;
 }
 
 /* Axis Color Accents */
@@ -282,12 +319,9 @@ div.ecologism      { background-color: var(--color-ecologism); }
 div.productivism   { background-color: var(--color-productivism); }
 div.atlanticism    { background-color: var(--color-atlanticism); }
 div.continentalism { background-color: var(--color-continentalism); }
+div.sanctuary      { background-color: var(--color-sanctuary); }
+div.fortress       { background-color: var(--color-fortress); }
 
-/* Liberalism text contrast */
-div.liberalism div.text-wrapper {
-    color: #1a1a1a;
-    text-shadow: none;
-}
 
 /* Info Cards & Index Descriptions */
 .values-grid {
@@ -321,12 +355,120 @@ div.liberalism div.text-wrapper {
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
 }
 
+/* Closest Countries Section */
+.countries-section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.countries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 0.85rem;
+    margin-top: 1.25rem;
+}
+
+.country-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.85rem;
+    padding: 0.85rem 1.15rem;
+    display: flex;
+    align-items: center;
+    gap: 0.95rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.country-card:hover {
+    border-color: var(--border-active);
+    transform: translateY(-2px);
+}
+
+.country-rank {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    min-width: 28px;
+    text-align: center;
+}
+
+.country-rank.top-rank {
+    color: #60a5fa;
+}
+
+.country-flag {
+    width: 44px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 0.35rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+}
+
+.country-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.country-name-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.35rem;
+}
+
+.country-name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.country-pct {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #60a5fa;
+    margin-left: 0.5rem;
+    white-space: nowrap;
+}
+
+.country-bar-track {
+    width: 100%;
+    height: 7px;
+    background-color: var(--bg-surface-elevated);
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.country-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2563eb, #60a5fa);
+    border-radius: 9999px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 @media (max-width: 600px) {
-    body { padding: 1.5rem 1rem 3rem; }
+    body { padding: 1.5rem 0.75rem 3rem; }
     h1 { font-size: 2.1rem; }
+    h1 .version-badge { font-size: 0.95rem; }
     .question-card, p.question { font-size: 1.15rem; padding: 1.5rem 1rem; }
-    .axis-icon { width: 48px; height: 48px; }
-    .axis-track { height: 40px; }
-    div.text-wrapper { font-size: 0.9rem; }
+    .axis-wrapper { margin-bottom: 0.95rem; }
+    .axis-node { width: 62px; gap: 0.25rem; }
+    .axis-node-label { font-size: 0.62rem; }
+    .axis-icon { width: 56px; height: 56px; }
+    .axis-track { height: 38px; margin-top: 9px; }
+    div.text-wrapper { font-size: 0.85rem; }
+    div.bar:first-child div.text-wrapper { left: 0.75rem; }
+    div.bar:last-child div.text-wrapper { right: 0.75rem; }
     .values-grid { grid-template-columns: 1fr; }
+    .countries-grid {
+        grid-template-columns: 1fr;
+    }
 }
