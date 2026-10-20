@@ -1,133 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700|Roboto:400,500,700" rel="stylesheet">
-    <link href="style.css" rel="stylesheet" type="text/css">
-    <title>EuropeanValues - Changelog</title>
-    <link rel="icon" type="x-icon" href="icon.svg">
-    <link rel="shortcut icon" type="x-icon" href="icon.svg">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .changelog-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-top: 1.75rem;
-            margin-bottom: 2.5rem;
-        }
-        .changelog-card {
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: 1.15rem;
-            padding: 1.5rem 1.75rem;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
-            transition: border-color 0.2s ease, transform 0.2s ease;
-        }
-        .changelog-card:hover {
-            border-color: var(--border-active);
-        }
-        .changelog-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 0.85rem;
-            border-bottom: 1px solid var(--border-subtle);
-            padding-bottom: 0.65rem;
-        }
-        .changelog-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-        .tag-badge {
-            font-size: 0.78rem;
-            font-weight: 700;
-            padding: 0.25rem 0.65rem;
-            border-radius: 9999px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-        .tag-latest {
-            background-color: rgba(37, 99, 235, 0.2);
-            color: #60a5fa;
-            border: 1px solid rgba(96, 165, 250, 0.35);
-        }
-        .tag-release {
-            background-color: rgba(34, 197, 94, 0.2);
-            color: #4ade80;
-            border: 1px solid rgba(74, 222, 128, 0.35);
-        }
-        .changelog-date {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-        .changelog-list {
-            margin: 0;
-            padding-left: 1.3rem;
-            color: var(--text-primary);
-        }
-        .changelog-list li {
-            margin-bottom: 0.5rem;
-            line-height: 1.55;
-            color: #cbd5e1;
-        }
-        .changelog-list li b {
-            color: var(--text-primary);
-        }
-    </style>
+    <title>EuropeanValues - Changelog</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="icon.svg">
+    <script src="theme.js"></script>
 </head>
 <body>
-    <h1>EuropeanValues <span class="version-badge">Changelog</span></h1>
-    <hr>
+    <button class="theme-toggle-corner" onclick="toggleTheme()" aria-label="Toggle light/dark mode">
+        <svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true">
+            <path d="M0,0 L250,250 L250,0 Z"></path>
+            <g class="icon-sun" transform="translate(142, 52) scale(2.2)">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+            </g>
+            <g class="icon-moon" transform="translate(142, 52) scale(2.2)">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </g>
+        </svg>
+    </button>
 
-    <div class="changelog-container">
+    <div class="main-container">
+        <h1 style="margin-top: 1rem;">Changelog</h1>
 
-        <div class="changelog-card">
-            <div class="changelog-header">
-                <h3 class="changelog-title">
-                    Version 2.0
-                    <span class="tag-badge tag-latest">Latest</span>
-                </h3>
-                <span class="changelog-date">9.10.2026</span>
-            </div>
-            <ul class="changelog-list">
-                <li><b>New 6th Axis (Migration):</b> Added Sanctuary Europe vs. Fortress Europe axis.</li>
-                <li><b>Closest Country Match:</b> Matching against 59 European nations with flag graphics and percent alignment.</li>
-                <li><b>Expanded Questionnaire:</b> 6 additional questions for each category.</li>
-                <li><b>Expanded Ideology System:</b> Broadened ideological catalog.</li>
+        <div class="description-box">
+            <h3>3.0 - 20.10.2026</h3>
+            <ul>
+                <li>Complete visual overhaul adopting the NeoValues design system.</li>
+                <li>Added a 7th axis: Migration (Beyond Europe vs. Within Europe).</li>
+                <li>Added Closest Party matching against European Parliament.</li>
+                <li>New productivism icon.</li>
+                <li>Questions rework.</li>
+                <li>Countries rework.</li>
+                <li>Ideologies rework.</li>
             </ul>
         </div>
 
-        <div class="changelog-card">
-            <div class="changelog-header">
-                <h3 class="changelog-title">
-                    Version 1.0 Release
-                    <span class="tag-badge tag-release">Initial Release</span>
-                </h3>
-                <span class="changelog-date">8.10.2026</span>
-            </div>
-            <ul class="changelog-list">
-                <li><b>Core Axes:</b> Introduced 5 core political axes.</li>
-                <li><b>Custom Questionnaire:</b> Added 50 questions - 10 for each category.</li>
-                <li><b>Design & UI:</b> Dark-mode theme.</li>
-                <li><b>Ideology Classifier</b></li>
+        <div class="description-box">
+            <h3>2.0 - 9.10.2026</h3>
+            <ul>
+                <li>Added a 6th axis: Horizon (Sanctuary Europe vs. Fortress Europe).</li>
+                <li>Added Closest Country matching against 59 European nations, displaying top 10 matches with flags and alignment percentages.</li>
+                <li>Expanded the question set to 96 questions (16 questions for each category).</li>
+                <li>Expanded the ideology catalog with over 50 specific European political alignments and descriptions.</li>
+                <li>Added a downloadable results card banner.</li>
             </ul>
         </div>
 
-    </div>
+        <div class="description-box">
+            <h3>1.0 - 8.10.2026</h3>
+            <ul>
+                <li>Initial release of EuropeanValues.</li>
+                <li>Introduced the 5 core political axes: Integration, Economy, Culture, Ecology, and Geopolitics.</li>
+                <li>Created custom question pool tailored to European political realities.</li>
+                <li>Initial ideology classifier and axis bar visualizer.</li>
+            </ul>
+        </div>
 
-    <div class="small-button-container" style="gap: 0.85rem;">
-        <button class="small_button" onclick="location.href='index.html';">Back to Home</button>
+        <div class="button-container" style="margin-top: 2rem;">
+            <button onclick="location.href='index.html'">Back</button>
+        </div>
     </div>
 </body>
 </html>
