@@ -1,33 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700|Roboto:400,500,700" rel="stylesheet">
-    <link href="style.css" rel="stylesheet" type="text/css">
-    <title>EuropeanValues Quiz</title>
-    <link rel="icon" type="x-icon" href="icon.svg">
-    <link rel="shortcut icon" type="x-icon" href="icon.svg">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EuropeanValues Quiz</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="icon.svg">
+    <script src="theme.js"></script>
 </head>
 <body>
-    <script type="application/javascript" src="questions.js"></script>
+    <button class="theme-toggle-corner" onclick="toggleTheme()" aria-label="Toggle light/dark mode">
+        <svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true">
+            <path d="M0,0 L250,250 L250,0 Z"></path>
+            <g class="icon-sun" transform="translate(142, 52) scale(2.2)">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+            </g>
+            <g class="icon-moon" transform="translate(142, 52) scale(2.2)">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </g>
+        </svg>
+    </button>
 
-    <h1>EuropeanValues</h1>
+    <script type="application/javascript" src="questions.js"></script>
+    <h1 style="margin-top: 1rem;">EuropeanValues</h1>
     <h2 id="question-number">Loading question...</h2>
 
     <div class="question-card" id="question-text">Loading text...</div>
 
     <div class="button-container">
-        <button class="button" onclick="next_question(1.0)" style="background-color: var(--btn-strongly-agree);">Strongly Agree</button>
-        <button class="button" onclick="next_question(0.5)" style="background-color: var(--btn-agree);">Agree</button>
-        <button class="button" onclick="next_question(0.0)" style="background-color: var(--btn-neutral);">Neutral / Unsure</button>
-        <button class="button" onclick="next_question(-0.5)" style="background-color: var(--btn-disagree);">Disagree</button>
-        <button class="button" onclick="next_question(-1.0)" style="background-color: var(--btn-strongly-disagree);">Strongly Disagree</button>
+        <button class="button quiz-button" onclick="next_question(1.0)" style="background-color: var(--btn-strongly-agree);">Strongly Agree</button>
+        <button class="button quiz-button" onclick="next_question(0.5)" style="background-color: var(--btn-agree);">Agree</button>
+        <button class="button quiz-button" onclick="next_question(0.0)" style="background-color: var(--btn-neutral);">Neutral / Unsure</button>
+        <button class="button quiz-button" onclick="next_question(-0.5)" style="background-color: var(--btn-disagree);">Disagree</button>
+        <button class="button quiz-button" onclick="next_question(-1.0)" style="background-color: var(--btn-strongly-disagree);">Strongly Disagree</button>
     </div>
 
     <div class="small-button-container">
-        <button class="small_button" onclick="prev_question()" id="back_button">Back</button>
-        <button class="small_button_off" id="back_button_off">Back</button>
+        <button class="small_button" onclick="prev_question()" id="back_button">Previous Question</button>
+        <button class="small_button_off" id="back_button_off">Previous Question</button>
     </div>
 
     <script>
@@ -37,7 +49,8 @@
             culture:     'c',
             ecology:     'g',
             foreign:     'f',
-            migration:   'm'
+            migration:   'm',
+            horizon:     'b'
         };
 
         const scores = {};
@@ -63,9 +76,9 @@
             document.getElementById("question-number").innerHTML = "Question " + (qn + 1) + " of " + questions.length;
             if (prev_answer == null) {
                 document.getElementById("back_button").style.display = 'none';
-                document.getElementById("back_button_off").style.display = 'block';
+                document.getElementById("back_button_off").style.display = 'inline-block';
             } else {
-                document.getElementById("back_button").style.display = 'block';
+                document.getElementById("back_button").style.display = 'inline-block';
                 document.getElementById("back_button_off").style.display = 'none';
             }
         }
@@ -74,7 +87,6 @@
             for (const axis in AXIS_MAP) {
                 scores[axis] += mult * ((questions[qn].effect && questions[qn].effect[axis]) || 0);
             }
-
             qn++;
             prev_answer = mult;
             if (qn < questions.length) {
@@ -103,7 +115,6 @@
             const queryParams = Object.entries(AXIS_MAP)
                 .map(([axis, param]) => `${param}=${calc_score(scores[axis], maxScores[axis])}`)
                 .join('&');
-
             location.href = `results.html?${queryParams}`;
         }
     </script>
