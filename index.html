@@ -1,36 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700|Roboto:400,500,700" rel="stylesheet">
-    <link href="style.css" rel="stylesheet" type="text/css">
-    <title>EuropeanValues</title>
-    <link rel="icon" type="x-icon" href="icon.svg">
-    <link rel="shortcut icon" type="x-icon" href="icon.svg">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EuropeanValues</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="icon.svg">
+    <script src="theme.js"></script>
 </head>
 <body>
-    <h1 style="margin-top: 1.5rem;">EuropeanValues</h1>
-    <p style="text-align: center; font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 2rem;">
+    <button class="theme-toggle-corner" onclick="toggleTheme()" aria-label="Toggle light/dark mode">
+        <svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true">
+            <path d="M0,0 L250,250 L250,0 Z"></path>
+            <g class="icon-sun" transform="translate(142, 52) scale(2.2)">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+            </g>
+            <g class="icon-moon" transform="translate(142, 52) scale(2.2)">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </g>
+        </svg>
+    </button>
+
+    <h1 style="margin-top: 1rem;">EuropeanValues</h1>
+    <p style="text-align: center; font-size: 1.15rem; margin-bottom: 2rem;">
         Discover your political orientation tailored specifically to the European ideological landscape.
     </p>
 
-    <div class="button-container" style="margin-bottom: 2.5rem;">
-        <button class="button" onclick="location.href='instructions.html';" style="background-color: var(--color-europeanism); font-size: 1.35rem;">Click here to start!</button>
-        <button class="button" onclick="location.href='changelog.html';" style="background-color: var(--bg-surface-elevated); color: var(--text-secondary); font-size: 1.05rem;">Changelog</button>
-        <button class="button" onclick="location.href='https://neomediavalist.github.io/mytests/';" style="background-color: var(--bg-surface-elevated); color: var(--text-secondary); font-size: 1.05rem;">Other tests</button>
+    <!-- Main Navigation Buttons -->
+    <div class="button-container" style="margin-bottom: 1rem;">
+        <button class="button" onclick="location.href='instructions.html';" style="font-size: 1.25rem;">Click here to start!</button>
+        <button class="button" onclick="location.href='changelog.html';">Changelog</button>
+        <button class="button" onclick="location.href='https://neomediavalist.github.io/mytests/';">Other tests</button>
+    </div>
+
+    <!-- Icons placed directly under "Other tests" -->
+    <div class="footer-icons" style="margin-top: 0.5rem; margin-bottom: 2.5rem;">
+        <a href="support.html" title="Support Ukraine" class="footer-icon-link">
+            <img src="support.svg" alt="Support Ukraine" class="footer-icon">
+        </a>
+        <a href="https://github.com/neomediavalist/europeanvalues" target="_blank" rel="noopener noreferrer" title="GitHub" class="footer-icon-link">
+            <img src="github.svg" alt="GitHub" class="footer-icon">
+        </a>
     </div>
 
     <h2>What is EuropeanValues?</h2>
-    <p>
-        EuropeanValues is a political quiz based on <a href="https://bannnedb.github.io/AmericanValues-2/">AmericanValues 2</a> (which is based on <a href="https://8values.github.io/">8values</a>), but tailored specifically to the political climate, treaties, and socio-economic systems of Europe. You will be presented with a statement, and you will answer with your opinion from <b>Strongly Agree</b> to <b>Strongly Disagree</b>, with each answer slightly affecting your scores.
-    </p>
-    <p>
-        There are <b style="color: #60a5fa;"><span id="numOfQuestions"></span> questions</b> in the test.
-    </p>
+    <div class="description-box">
+        <p style="margin-bottom: 0.75rem;">
+            EuropeanValues is a political quiz based on <a href="https://bannnedb.github.io/AmericanValues-2/">AmericanValues 2</a> and <a href="https://8values.github.io/">8values</a>, but tailored specifically to the political climate, treaties, and socio-economic systems of Europe.
+        </p>
+        <p style="margin-bottom: 0;">
+            You will be presented with a statement, and you will answer with your opinion from <b>Strongly Agree</b> to <b>Strongly Disagree</b>, with each answer affecting your scores. There are <b style="color: #60a5fa;"><span id="numOfQuestions">...</span> questions</b> in the test.
+        </p>
+    </div>
 
     <h2>What are the European Values?</h2>
-    <p>There are five independent axes, each contrasting two competing perspectives:</p>
+    <p>There are seven independent axes, each contrasting two competing perspectives:</p>
 
     <div class="values-grid">
         <div class="value-card">
@@ -74,13 +100,21 @@
             <p>Advocates for European strategic autonomy, independent military capability, and an autonomous diplomatic line.</p>
         </div>
         <div class="value-card">
-        <b style="color: var(--color-sanctuary);">Sanctuary Europe</b>
-        <p>Prioritizes universal human rights, generous asylum protections, state-supported maritime search-and-rescue, and legal migration corridors.</p>
-    </div>
-    <div class="value-card">
-        <b style="color: var(--color-fortress);">Fortress Europe</b>
-        <p>Prioritizes hardened external border walls, Frontex interdiction, third-country offshore processing centers, and rapid deportations.</p>
-    </div>
+            <b style="color: var(--color-sanctuary);">Sanctuary Europe</b>
+            <p>Prioritizes universal human rights, generous asylum protections, state-supported maritime search-and-rescue, and legal migration corridors.</p>
+        </div>
+        <div class="value-card">
+            <b style="color: var(--color-fortress);">Fortress Europe</b>
+            <p>Prioritizes hardened external border walls, Frontex interdiction, third-country offshore processing centers, and rapid deportations.</p>
+        </div>
+        <div class="value-card">
+            <b style="color: var(--color-beyondeurope);">Beyond Europe</b>
+            <p>Supports opening European integration to stable democracies outside the European continent, welcoming countries that share European democratic standards regardless of physical geography.</p>
+        </div>
+        <div class="value-card">
+            <b style="color: var(--color-withineurope);">Within Europe</b>
+            <p>Insists that European Union membership and sovereign governance must remain strictly anchored within the geographic European landmass, keeping external democracies as partners rather than member states.</p>
+        </div>
     </div>
 
     <script type="application/javascript" src="questions.js"></script>
