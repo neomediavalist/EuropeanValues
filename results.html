@@ -1,23 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700|Roboto:400,500,700" rel="stylesheet">
-    <link href="style.css" rel="stylesheet" type="text/css">
-    <title>EuropeanValues Results</title>
-    <link rel="icon" type="x-icon" href="icon.svg">
-    <link rel="shortcut icon" type="x-icon" href="icon.svg">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EuropeanValues Results</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="icon.svg">
+    <script src="theme.js"></script>
+    <script type="application/javascript" src="ideologies.js"></script>
+    <script type="application/javascript" src="countries.js"></script>
+    <script type="application/javascript" src="parties.js"></script>
 </head>
-<script type="application/javascript" src="ideologies.js"></script>
-<script type="application/javascript" src="countries.js"></script>
 <body>
-    <h1>EuropeanValues <span class="version-badge">v2.0</span></h1>
+    <button class="theme-toggle-corner" onclick="toggleTheme()" aria-label="Toggle light/dark mode">
+        <svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true">
+            <path d="M0,0 L250,250 L250,0 Z"></path>
+            <g class="icon-sun" transform="translate(142, 52) scale(2.2)">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+            </g>
+            <g class="icon-moon" transform="translate(142, 52) scale(2.2)">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </g>
+        </svg>
+    </button>
+
+    <h1 style="margin-top: 1rem;">EuropeanValues <span class="version-badge">v3.0</span></h1>
     <hr>
+
     <h2 style="text-align: center; margin-top: 0; margin-bottom: 0.35rem;">Results</h2>
-    <p style="text-align: center; font-size: 0.95rem; color: var(--text-secondary); margin-top: 0; margin-bottom: 1.75rem;">
-        No need to screenshot — you can save or download the results image below!
+    <p style="text-align: center; font-size: 0.95rem; margin-top: 0; margin-bottom: 2rem;">
+        No need to screenshot — you can save or download the generated results card below!
     </p>
+
+    <div class="small-button-container" style="gap: 1rem;">
+        <button class="small_button" id="download-btn-top" onclick="downloadBanner()">Download Image</button>
+    </div>
 
     <!-- Integration Axis -->
     <div class="axis-wrapper">
@@ -137,8 +156,8 @@
         </div>
         <div class="axis">
             <div class="axis-node">
-                <img class="axis-icon" id="img-sanctuary" src="value_images/sanctuary.svg" alt="Sanctuary Europe"/>
-                <span class="axis-node-label">Sanctuary Europe</span>
+                <img class="axis-icon" id="img-sanctuary" src="value_images/sanctuary.svg" alt="Sanctuary"/>
+                <span class="axis-node-label">Sanctuary</span>
             </div>
             <div class="axis-track">
                 <div class="bar sanctuary" id="bar-sanctuary"><div class="text-wrapper" id="sanctuary"></div></div>
@@ -146,27 +165,65 @@
             </div>
             <div class="axis-node">
                 <img class="axis-icon" id="img-fortress" src="value_images/fortress.svg" alt="Fortress Europe"/>
-                <span class="axis-node-label">Fortress Europe</span>
+                <span class="axis-node-label">Fortress</span>
             </div>
         </div>
     </div>
 
-    <h2 style="text-align: center; margin-top: 2.5rem; margin-bottom: 0.5rem;">Closest Match: <span style="color: #60a5fa;" id="ideology-label"></span></h2>
-    <p style="text-align: center; font-size: 1.05rem; color: var(--text-secondary); max-width: 680px; margin: 0 auto 1.5rem; line-height: 1.5;" id="ideology-desc"></p>
+    <!-- Horizon Axis -->
+    <div class="axis-wrapper">
+        <div class="axis-title">
+            <span>Horizon Axis</span>
+            <span class="weight-300" id="horizon-label"></span>
+        </div>
+        <div class="axis">
+            <div class="axis-node">
+                <img class="axis-icon" id="img-beyondeurope" src="value_images/beyondeurope.svg" alt="Beyond"/>
+                <span class="axis-node-label">Beyond</span>
+            </div>
+            <div class="axis-track">
+                <div class="bar beyondeurope" id="bar-beyondeurope"><div class="text-wrapper" id="beyondeurope"></div></div>
+                <div class="bar withineurope" id="bar-withineurope"><div class="text-wrapper" id="withineurope"></div></div>
+            </div>
+            <div class="axis-node">
+                <img class="axis-icon" id="img-withineurope" src="value_images/withineurope.svg" alt="Within"/>
+                <span class="axis-node-label">Within</span>
+            </div>
+        </div>
+    </div>
 
+    <!-- Closest Match -->
+    <div style="text-align: center; margin-top: 2.5rem; margin-bottom: 1.5rem;">
+        <h2 style="margin-bottom: 0.4rem;">Closest Match</h2>
+        <div class="label-bubble" id="ideology-label">Calculating...</div>
+        <p style="font-size: 1.05rem; max-width: 680px; margin: 0.75rem auto 1.5rem; line-height: 1.6;" id="ideology-desc"></p>
+    </div>
+
+    <!-- 1. Closest Countries Section (Top 10) -->
     <div class="countries-section">
         <hr/>
         <h2 style="text-align: center; margin-top: 1.75rem; margin-bottom: 0.35rem;">Closest Countries</h2>
-        <p style="text-align: center; font-size: 0.95rem; color: var(--text-secondary); margin-top: 0; margin-bottom: 1.25rem;">
+        <p style="text-align: center; font-size: 0.95rem; margin-top: 0; margin-bottom: 1.25rem;">
             The 10 European nations whose political landscape aligns most closely with your values:
         </p>
         <div class="countries-grid" id="closest-countries-list"></div>
     </div>
 
+    <!-- 2. Closest Parties Section (Top 5) -->
+    <div class="parties-section">
+        <hr/>
+        <h2 style="text-align: center; margin-top: 1.75rem; margin-bottom: 0.35rem;">Closest Parties</h2>
+        <p style="text-align: center; font-size: 0.95rem; margin-top: 0; margin-bottom: 1.25rem;">
+            The 5 European Parliament political groups whose platform aligns most closely with your values:
+        </p>
+        <div class="parties-grid" id="closest-parties-list"></div>
+    </div>
+
     <hr/>
+    <h2 style="text-align: center; margin-top: 1.75rem; margin-bottom: 0.35rem;">Results Card</h2>
     <img src="" id="banner" alt="EuropeanValues Results Card" style="max-width: 800px; width: 100%;">
 
-    <div class="small-button-container" style="gap: 0.75rem;">
+    <div class="small-button-container" style="gap: 1rem;">
         <button class="small_button" id="download-btn" onclick="downloadBanner()">Download Image</button>
         <button class="small_button" onclick="location.href='index.html';">Back to Home</button>
     </div>
@@ -218,6 +275,10 @@
             "Radical Sanctuary", "Open Borders Advocate", "Humanitarian Universalist",
             "Managed Inflow", "Border Restrictionist", "Fortress Securitist", "Hard Fortress Sovereignist"
         ];
+        const horizonArray = [
+            "Global Unionist", "Pro-Beyond Europe", "Open Horizon", "Balanced",
+            "Continental Focus", "Pro-Within Europe", "Strictly Within Europe"
+        ];
 
         function setLabel(val, ary) {
             if (val > 100) return "";
@@ -237,6 +298,7 @@
         var ecologism      = parseFloat(getQueryVariable("g")) || 50;
         var atlanticism    = parseFloat(getQueryVariable("f")) || 50;
         var sanctuary      = parseFloat(getQueryVariable("m")) || 50;
+        var beyondeurope   = parseFloat(getQueryVariable("b")) || 50;
 
         var euroscepticism = (100 - europeanism).toFixed(1);
         var liberalism     = (100 - socialism).toFixed(1);
@@ -244,6 +306,7 @@
         var productivism   = (100 - ecologism).toFixed(1);
         var continentalism = (100 - atlanticism).toFixed(1);
         var fortress       = (100 - sanctuary).toFixed(1);
+        var withineurope   = (100 - beyondeurope).toFixed(1);
 
         setBarValue("europeanism", europeanism);
         setBarValue("euroscepticism", euroscepticism);
@@ -257,6 +320,8 @@
         setBarValue("continentalism", continentalism);
         setBarValue("sanctuary", sanctuary);
         setBarValue("fortress", fortress);
+        setBarValue("beyondeurope", beyondeurope);
+        setBarValue("withineurope", withineurope);
 
         document.getElementById("integration-label").innerHTML = setLabel(europeanism, integrationArray);
         document.getElementById("economy-label").innerHTML     = setLabel(socialism, economyArray);
@@ -264,7 +329,9 @@
         document.getElementById("ecology-label").innerHTML     = setLabel(ecologism, ecologyArray);
         document.getElementById("foreign-label").innerHTML     = setLabel(atlanticism, foreignArray);
         document.getElementById("migration-label").innerHTML   = setLabel(sanctuary, migrationArray);
+        document.getElementById("horizon-label").innerHTML     = setLabel(beyondeurope, horizonArray);
 
+        // Closest Ideology
         var ideology = "";
         var ideologyDesc = "";
         var ideodist = Infinity;
@@ -277,6 +344,7 @@
                 dist += Math.pow(Math.abs(ideologies[i].stats.ecology - ecologism), 2);
                 dist += Math.pow(Math.abs(ideologies[i].stats.foreign - atlanticism), 2);
                 dist += Math.pow(Math.abs(ideologies[i].stats.migration - sanctuary), 2);
+                dist += Math.pow(Math.abs((ideologies[i].stats.horizon !== undefined ? ideologies[i].stats.horizon : 50) - beyondeurope), 2);
                 if (dist < ideodist) {
                     ideology = ideologies[i].name;
                     ideologyDesc = ideologies[i].desc || "";
@@ -287,9 +355,10 @@
         document.getElementById("ideology-label").innerHTML = ideology;
         document.getElementById("ideology-desc").innerHTML = ideologyDesc;
 
+        // Closest Countries
         var countryMatches = [];
         if (typeof countries !== 'undefined') {
-            var maxDist = 100 * Math.sqrt(6);
+            var maxDist = 100 * Math.sqrt(7);
             countryMatches = countries.map(function(c) {
                 var distSq = 0;
                 distSq += Math.pow(c.stats.integration - europeanism, 2);
@@ -298,7 +367,7 @@
                 distSq += Math.pow(c.stats.ecology - ecologism, 2);
                 distSq += Math.pow(c.stats.foreign - atlanticism, 2);
                 distSq += Math.pow(c.stats.migration - sanctuary, 2);
-
+                distSq += Math.pow((c.stats.horizon !== undefined ? c.stats.horizon : 50) - beyondeurope, 2);
                 var d = Math.sqrt(distSq);
                 var pct = Math.max(0, (1 - (d / maxDist)) * 100);
                 return {
@@ -310,11 +379,9 @@
                     match: pct.toFixed(1)
                 };
             });
-
             countryMatches.sort(function(a, b) {
                 return a.dist - b.dist;
             });
-
             var top10 = countryMatches.slice(0, 10);
             var listEl = document.getElementById("closest-countries-list");
             if (listEl) {
@@ -337,22 +404,81 @@
             }
         }
 
-        function renderBanner(flagImagesMap, allowExternalFlags) {
+        // Closest Parties (Top 5 on page, Top 3 on card)
+        var partyMatches = [];
+        if (typeof parties !== 'undefined') {
+            var maxDist = 100 * Math.sqrt(7);
+            partyMatches = parties.map(function(p) {
+                var distSq = 0;
+                distSq += Math.pow(p.stats.integration - europeanism, 2);
+                distSq += Math.pow(p.stats.economy - socialism, 2);
+                distSq += Math.pow(p.stats.culture - progressivism, 2);
+                distSq += Math.pow(p.stats.ecology - ecologism, 2);
+                distSq += Math.pow(p.stats.foreign - atlanticism, 2);
+                distSq += Math.pow(p.stats.migration - sanctuary, 2);
+                distSq += Math.pow((p.stats.horizon !== undefined ? p.stats.horizon : 50) - beyondeurope, 2);
+                var d = Math.sqrt(distSq);
+                var pct = Math.max(0, (1 - (d / maxDist)) * 100);
+                return {
+                    name: p.name,
+                    abbr: p.abbr,
+                    color: p.color || "#60a5fa",
+                    logo: p.logo || "",
+                    stats: p.stats,
+                    dist: d,
+                    match: pct.toFixed(1)
+                };
+            });
+            partyMatches.sort(function(a, b) {
+                return a.dist - b.dist;
+            });
+
+            // Top 5 closest parties shown on page
+            var top5Parties = partyMatches.slice(0, 5);
+            var listElParties = document.getElementById("closest-parties-list");
+            if (listElParties) {
+                listElParties.innerHTML = top5Parties.map(function(p, i) {
+                    var symbolHtml = '';
+                    if (p.logo && p.logo.trim() !== "") {
+                        symbolHtml = `<img class="party-logo" crossorigin="anonymous" src="${p.logo}" alt="${p.abbr} logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="party-badge" style="background-color: ${p.color}; display: none;">${p.abbr}</div>`;
+                    } else {
+                        symbolHtml = `<div class="party-badge" style="background-color: ${p.color};">${p.abbr}</div>`;
+                    }
+                    return `
+                    <div class="party-card">
+                        <span class="party-rank ${i < 3 ? 'top-rank' : ''}">#${i + 1}</span>
+                        ${symbolHtml}
+                        <div class="party-info">
+                            <div class="party-name-row">
+                                <span class="party-name" title="${p.name}">${p.name}</span>
+                                <span class="party-pct">${p.match}%</span>
+                            </div>
+                            <div class="party-bar-track">
+                                <div class="party-bar-fill" style="width: ${p.match}%; background: linear-gradient(90deg, ${p.color}, #60a5fa);"></div>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+        }
+
+        // Render Downloadable Banner Canvas
+        function renderBanner(flagImagesMap, partyImagesMap, allowExternalImages) {
             var c = document.createElement("canvas");
             var ctx = c.getContext("2d");
             var scale = 2;
             c.width = 800 * scale;
-            c.height = 1040 * scale;
-
+            c.height = 1300 * scale; // Expanded to 1300px to accommodate top 3 parties
             ctx.scale(scale, scale);
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = "high";
 
-            ctx.fillStyle = "#0f111a";
-            ctx.fillRect(0, 0, 800, 1040);
-            ctx.fillStyle = "#181c28";
+            ctx.fillStyle = "#18181b";
+            ctx.fillRect(0, 0, 800, 1300);
+
+            ctx.fillStyle = "#27272a";
             ctx.beginPath();
-            ctx.roundRect(15, 15, 770, 1010, 16);
+            ctx.roundRect(16, 16, 768, 1268, 20);
             ctx.fill();
 
             var drawIcons = [
@@ -361,11 +487,17 @@
                 ["img-progressivism", 30, 415], ["img-conservatism", 690, 415],
                 ["img-ecologism", 30, 535],   ["img-productivism", 690, 535],
                 ["img-atlanticism", 30, 655], ["img-continentalism", 690, 655],
-                ["img-sanctuary", 30, 775],   ["img-fortress", 690, 775]
+                ["img-sanctuary", 30, 775],   ["img-fortress", 690, 775],
+                ["img-beyondeurope", 30, 895], ["img-withineurope", 690, 895]
             ];
+
             drawIcons.forEach(item => {
                 var el = document.getElementById(item[0]);
-                if (el) ctx.drawImage(el, item[1], item[2], 80, 80);
+                if (el && el.complete && el.naturalWidth > 0) {
+                    try {
+                        ctx.drawImage(el, item[1], item[2], 80, 80);
+                    } catch (e) {}
+                }
             });
 
             var iconLabels = [
@@ -374,14 +506,16 @@
                 { y: 512, leftText: "Progressivism", rightText: "Conservatism" },
                 { y: 632, leftText: "Ecologism", rightText: "Productivism" },
                 { y: 752, leftText: "Atlanticism", rightText: "Continentalism" },
-                { y: 872, leftText: "Sanctuary Europe", rightText: "Fortress Europe" }
+                { y: 872, leftText: "Sanctuary", rightText: "Fortress" },
+                { y: 992, leftText: "Beyond", rightText: "Within" }
             ];
-            ctx.font = "600 12px Montserrat";
-            ctx.fillStyle = "#94a3b8";
+
+            ctx.font = "700 12px Quicksand, sans-serif";
+            ctx.fillStyle = "#a1a1aa";
             iconLabels.forEach(il => {
                 ctx.textAlign = "center";
-                ctx.fillText(il.leftText, 70, il.y);
-                ctx.fillText(il.rightText, 730, il.y);
+                ctx.fillText(il.leftText.toUpperCase(), 70, il.y);
+                ctx.fillText(il.rightText.toUpperCase(), 730, il.y);
             });
 
             var colors = {
@@ -396,7 +530,9 @@
                 atlanticism: "#0ea5e9",
                 continentalism: "#7c3aed",
                 sanctuary: "#06b6d4",
-                fortress: "#b91c1c"
+                fortress: "#b91c1c",
+                beyondeurope: "#0d9488",
+                withineurope: "#b45309"
             };
 
             var barPairs = [
@@ -405,17 +541,19 @@
                 { y: 435, leftVal: progressivism, rightVal: conservatism, leftCol: colors.progressivism, rightCol: colors.conservatism, label: "Culture: " + document.getElementById("culture-label").innerHTML },
                 { y: 555, leftVal: ecologism, rightVal: productivism, leftCol: colors.ecologism, rightCol: colors.productivism, label: "Ecology: " + document.getElementById("ecology-label").innerHTML },
                 { y: 675, leftVal: atlanticism, rightVal: continentalism, leftCol: colors.atlanticism, rightCol: colors.continentalism, label: "Geopolitics: " + document.getElementById("foreign-label").innerHTML },
-                { y: 795, leftVal: sanctuary, rightVal: fortress, leftCol: colors.sanctuary, rightCol: colors.fortress, label: "Migration: " + document.getElementById("migration-label").innerHTML }
+                { y: 795, leftVal: sanctuary, rightVal: fortress, leftCol: colors.sanctuary, rightCol: colors.fortress, label: "Migration: " + document.getElementById("migration-label").innerHTML },
+                { y: 915, leftVal: beyondeurope, rightVal: withineurope, leftCol: colors.beyondeurope, rightCol: colors.withineurope, label: "Horizon: " + document.getElementById("horizon-label").innerHTML }
             ];
 
             barPairs.forEach(bp => {
-                ctx.fillStyle = "#0f111a";
+                ctx.fillStyle = "#18181b";
                 ctx.beginPath();
                 ctx.roundRect(125, bp.y, 550, 48, 24);
                 ctx.fill();
 
                 var leftW = (bp.leftVal / 100) * 550;
                 var rightW = 550 - leftW;
+
                 ctx.save();
                 ctx.beginPath();
                 ctx.roundRect(125, bp.y, 550, 48, 24);
@@ -426,79 +564,77 @@
                 ctx.fillRect(125 + leftW, bp.y, rightW, 48);
                 ctx.restore();
 
-                ctx.fillStyle = "#94a3b8";
-                ctx.font = "500 16px Montserrat";
+                ctx.fillStyle = "#d4d4d8";
+                ctx.font = "700 15px Quicksand, sans-serif";
                 ctx.textAlign = "center";
                 ctx.fillText(bp.label, 400, bp.y - 10);
 
-                ctx.font = "700 18px Montserrat";
+                ctx.font = "700 17px Quicksand, sans-serif";
                 if (bp.leftVal >= 12) {
                     ctx.textAlign = "left";
                     ctx.fillStyle = "#ffffff";
-                    ctx.fillText(bp.leftVal + "%", 140, bp.y + 31);
+                    ctx.fillText(bp.leftVal + "%", 140, bp.y + 30);
                 }
                 if (bp.rightVal >= 12) {
                     ctx.textAlign = "right";
                     ctx.fillStyle = "#ffffff";
-                    ctx.fillText(bp.rightVal + "%", 660, bp.y + 31);
+                    ctx.fillText(bp.rightVal + "%", 660, bp.y + 30);
                 }
             });
 
             ctx.textAlign = "left";
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "700 34px Montserrat";
+            ctx.fillStyle = "#f4f4f5";
+            ctx.font = "700 34px Quicksand, sans-serif";
             ctx.fillText("EuropeanValues", 35, 75);
 
             var titleWidth = ctx.measureText("EuropeanValues").width;
-            ctx.fillStyle = "#94a3b8";
-            ctx.font = "500 18px Montserrat";
-            ctx.fillText("v2.0", 35 + titleWidth + 10, 75);
+            ctx.fillStyle = "#a1a1aa";
+            ctx.font = "600 17px Quicksand, sans-serif";
+            ctx.fillText("v3.0", 35 + titleWidth + 12, 75);
 
             ctx.fillStyle = "#60a5fa";
-            ctx.font = "600 24px Montserrat";
+            ctx.font = "700 24px Quicksand, sans-serif";
             ctx.fillText("Closest Match: " + ideology, 35, 115);
 
+            // Divider 1
             ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
             ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.moveTo(35, 896);
-            ctx.lineTo(765, 896);
+            ctx.moveTo(35, 1016);
+            ctx.lineTo(765, 1016);
             ctx.stroke();
 
-            ctx.fillStyle = "#94a3b8";
-            ctx.font = "600 15px Montserrat";
+            // Closest Countries (Top 3 on card)
+            ctx.fillStyle = "#a1a1aa";
+            ctx.font = "700 15px Quicksand, sans-serif";
             ctx.textAlign = "left";
-            ctx.fillText("Closest Countries:", 35, 922);
+            ctx.fillText("Closest Countries:", 35, 1040);
 
-            var top3 = countryMatches.slice(0, 3);
+            var top3Countries = countryMatches.slice(0, 3);
             var cardW = 226;
             var cardH = 72;
-            var cardY = 934;
+            var cardYCountries = 1050;
             var cardXCoords = [35, 287, 539];
 
-            top3.forEach((cItem, idx) => {
+            top3Countries.forEach((cItem, idx) => {
                 var x = cardXCoords[idx];
-
-                ctx.fillStyle = "#0f111a";
+                ctx.fillStyle = "#18181b";
                 ctx.beginPath();
-                ctx.roundRect(x, cardY, cardW, cardH, 10);
+                ctx.roundRect(x, cardYCountries, cardW, cardH, 12);
                 ctx.fill();
                 ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
                 ctx.stroke();
 
                 var flagDrawn = false;
                 var flagImg = flagImagesMap && flagImagesMap[cItem.code];
-
-                if (allowExternalFlags && flagImg && flagImg.complete && flagImg.naturalWidth > 0) {
+                if (allowExternalImages && flagImg && flagImg.complete && flagImg.naturalWidth > 0) {
                     try {
                         ctx.save();
                         ctx.beginPath();
-                        ctx.roundRect(x + 12, cardY + 21, 45, 30, 4);
+                        ctx.roundRect(x + 12, cardYCountries + 21, 45, 30, 6);
                         ctx.clip();
-                        ctx.drawImage(flagImg, x + 12, cardY + 21, 45, 30);
+                        ctx.drawImage(flagImg, x + 12, cardYCountries + 21, 45, 30);
                         ctx.restore();
-                        ctx.strokeStyle = "rgba(255, 255, 255, 0.18)";
-                        ctx.strokeRect(x + 12, cardY + 21, 45, 30);
                         flagDrawn = true;
                     } catch (e) {
                         flagDrawn = false;
@@ -506,38 +642,101 @@
                 }
 
                 if (!flagDrawn) {
-                    ctx.fillStyle = "#212637";
+                    ctx.fillStyle = "#323238";
                     ctx.beginPath();
-                    ctx.roundRect(x + 12, cardY + 21, 45, 30, 4);
+                    ctx.roundRect(x + 12, cardYCountries + 21, 45, 30, 6);
                     ctx.fill();
-                    ctx.strokeStyle = "rgba(255, 255, 255, 0.18)";
-                    ctx.stroke();
                     ctx.fillStyle = "#60a5fa";
-                    ctx.font = "700 12px Montserrat";
+                    ctx.font = "700 12px Quicksand, sans-serif";
                     ctx.textAlign = "center";
-                    ctx.fillText(cItem.code.toUpperCase().slice(0, 3), x + 12 + 22.5, cardY + 40);
+                    ctx.fillText(cItem.code.toUpperCase().slice(0, 3), x + 12 + 22.5, cardYCountries + 40);
                 }
 
-                ctx.fillStyle = "#ffffff";
+                ctx.fillStyle = "#f4f4f5";
                 ctx.textAlign = "left";
                 var nameText = "#" + (idx + 1) + " " + cItem.name;
-                ctx.font = "700 14px Montserrat";
+                ctx.font = "700 14px Quicksand, sans-serif";
                 if (ctx.measureText(nameText).width > 150) {
-                    ctx.font = "700 12px Montserrat";
+                    ctx.font = "700 12px Quicksand, sans-serif";
                 }
-                ctx.fillText(nameText, x + 66, cardY + 33);
+                ctx.fillText(nameText, x + 66, cardYCountries + 34);
 
                 ctx.fillStyle = "#60a5fa";
-                ctx.font = "600 13px Montserrat";
-                ctx.fillText(cItem.match + "% Match", x + 66, cardY + 53);
+                ctx.font = "700 13px Quicksand, sans-serif";
+                ctx.fillText(cItem.match + "% Match", x + 66, cardYCountries + 54);
+            });
+
+            // Divider 2
+            ctx.beginPath();
+            ctx.moveTo(35, 1140);
+            ctx.lineTo(765, 1140);
+            ctx.stroke();
+
+            // Closest Parties (Top 3 on card)
+            ctx.fillStyle = "#a1a1aa";
+            ctx.font = "700 15px Quicksand, sans-serif";
+            ctx.textAlign = "left";
+            ctx.fillText("Closest Parties:", 35, 1164);
+
+            var top3Parties = partyMatches.slice(0, 3);
+            var cardYParties = 1176;
+
+            top3Parties.forEach((pItem, idx) => {
+                var x = cardXCoords[idx];
+                ctx.fillStyle = "#18181b";
+                ctx.beginPath();
+                ctx.roundRect(x, cardYParties, cardW, cardH, 12);
+                ctx.fill();
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+                ctx.stroke();
+
+                var logoDrawn = false;
+                var logoImg = partyImagesMap && partyImagesMap[pItem.abbr];
+                if (allowExternalImages && logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
+                    try {
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.roundRect(x + 12, cardYParties + 21, 45, 30, 6);
+                        ctx.clip();
+                        ctx.fillStyle = "#27272a";
+                        ctx.fillRect(x + 12, cardYParties + 21, 45, 30);
+                        ctx.drawImage(logoImg, x + 12, cardYParties + 21, 45, 30);
+                        ctx.restore();
+                        logoDrawn = true;
+                    } catch (e) {
+                        logoDrawn = false;
+                    }
+                }
+
+                if (!logoDrawn) {
+                    ctx.fillStyle = pItem.color || "#323238";
+                    ctx.beginPath();
+                    ctx.roundRect(x + 12, cardYParties + 21, 45, 30, 6);
+                    ctx.fill();
+                    ctx.fillStyle = "#ffffff";
+                    ctx.font = "700 11px Quicksand, sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.fillText(pItem.abbr, x + 12 + 22.5, cardYParties + 40);
+                }
+
+                ctx.fillStyle = "#f4f4f5";
+                ctx.textAlign = "left";
+                var partyDisplayName = "#" + (idx + 1) + " " + pItem.abbr;
+                ctx.font = "700 14px Quicksand, sans-serif";
+                ctx.fillText(partyDisplayName, x + 66, cardYParties + 34);
+
+                ctx.fillStyle = "#60a5fa";
+                ctx.font = "700 13px Quicksand, sans-serif";
+                ctx.fillText(pItem.match + "% Match", x + 66, cardYParties + 54);
             });
 
             try {
                 var dataUrl = c.toDataURL("image/png");
                 document.getElementById("banner").src = dataUrl;
             } catch (err) {
-                if (allowExternalFlags) {
-                    renderBanner(flagImagesMap, false);
+                if (allowExternalImages) {
+                    // Fallback to local colored representations if remote images trigger CORS security limits
+                    renderBanner(flagImagesMap, partyImagesMap, false);
                 }
             }
         }
@@ -546,11 +745,11 @@
             if (document.fonts) {
                 await document.fonts.ready;
             }
-
-            var top3 = countryMatches.slice(0, 3);
+            var top3Countries = countryMatches.slice(0, 3);
             var flagMap = {};
+            var partyLogoMap = {};
 
-            await Promise.all(top3.map(c => {
+            var loadFlags = Promise.all(top3Countries.map(c => {
                 return new Promise(resolve => {
                     var img = new Image();
                     img.crossOrigin = "anonymous";
@@ -566,7 +765,30 @@
                 });
             }));
 
-            renderBanner(flagMap, true);
+            var top3Parties = partyMatches.slice(0, 3);
+            var loadLogos = Promise.all(top3Parties.map(p => {
+                return new Promise(resolve => {
+                    if (!p.logo || p.logo.trim() === "") {
+                        partyLogoMap[p.abbr] = null;
+                        resolve();
+                        return;
+                    }
+                    var img = new Image();
+                    img.crossOrigin = "anonymous";
+                    img.onload = function() {
+                        partyLogoMap[p.abbr] = img;
+                        resolve();
+                    };
+                    img.onerror = function() {
+                        partyLogoMap[p.abbr] = null;
+                        resolve();
+                    };
+                    img.src = p.logo;
+                });
+            }));
+
+            await Promise.all([loadFlags, loadLogos]);
+            renderBanner(flagMap, partyLogoMap, true);
         }
 
         window.onload = function() {
