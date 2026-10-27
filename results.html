@@ -203,20 +203,90 @@
     <div class="countries-section">
         <hr/>
         <h2 style="text-align: center; margin-top: 1.75rem; margin-bottom: 0.35rem;">Closest Countries</h2>
-        <p style="text-align: center; font-size: 0.95rem; margin-top: 0; margin-bottom: 1.25rem;">
-            The 10 European nations whose political landscape aligns most closely with your values:
-        </p>
-        <div class="countries-grid" id="closest-countries-list"></div>
+        
+        <div class="folder-container">
+            <div class="folder-tabs" role="tablist">
+                <button class="folder-tab active" id="tab-btn-countries-general" onclick="switchFolderTab('countries', 'general')" role="tab" aria-selected="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                    General
+                </button>
+                <button class="folder-tab" id="tab-btn-countries-categories" onclick="switchFolderTab('countries', 'categories')" role="tab" aria-selected="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    By Category
+                </button>
+            </div>
+            <div class="folder-body">
+                <div class="folder-panel active" id="tab-panel-countries-general" role="tabpanel">
+                    <p class="folder-panel-desc">
+                        The 10 European nations whose political landscape aligns most closely with your values:
+                    </p>
+                    <div class="countries-grid" id="closest-countries-list"></div>
+                </div>
+                <div class="folder-panel" id="tab-panel-countries-categories" role="tabpanel">
+                    <p class="folder-panel-desc">
+                        The European nation whose alignment is closest to your score on each specific axis:
+                    </p>
+                    <div class="countries-grid" id="closest-countries-categories-list"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- 2. Closest Parties Section (Top 5) -->
+    <!-- 2. Closest Parties Section (Top 10) -->
     <div class="parties-section">
         <hr/>
         <h2 style="text-align: center; margin-top: 1.75rem; margin-bottom: 0.35rem;">Closest Parties</h2>
-        <p style="text-align: center; font-size: 0.95rem; margin-top: 0; margin-bottom: 1.25rem;">
-            The 5 European Parliament political groups whose platform aligns most closely with your values:
-        </p>
-        <div class="parties-grid" id="closest-parties-list"></div>
+        
+        <div class="folder-container">
+            <div class="folder-tabs" role="tablist">
+                <button class="folder-tab active" id="tab-btn-parties-general" onclick="switchFolderTab('parties', 'general')" role="tab" aria-selected="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                    General
+                </button>
+                <button class="folder-tab" id="tab-btn-parties-categories" onclick="switchFolderTab('parties', 'categories')" role="tab" aria-selected="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    By Category
+                </button>
+            </div>
+            <div class="folder-body">
+                <div class="folder-panel active" id="tab-panel-parties-general" role="tabpanel">
+                    <p class="folder-panel-desc">
+                        The 10 European political groups whose platform aligns most closely with your values:
+                    </p>
+                    <div class="parties-grid" id="closest-parties-list"></div>
+                </div>
+                <div class="folder-panel" id="tab-panel-parties-categories" role="tabpanel">
+                    <p class="folder-panel-desc">
+                        The European political group aligning most closely with your score on each specific axis:
+                    </p>
+                    <div class="parties-grid" id="closest-parties-categories-list"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <hr/>
@@ -248,6 +318,33 @@
                 innerel.style.display = "none";
             } else {
                 innerel.style.display = "inline-block";
+            }
+        }
+
+        function switchFolderTab(section, tab) {
+            var generalBtn = document.getElementById("tab-btn-" + section + "-general");
+            var catBtn = document.getElementById("tab-btn-" + section + "-categories");
+            var generalPanel = document.getElementById("tab-panel-" + section + "-general");
+            var catPanel = document.getElementById("tab-panel-" + section + "-categories");
+
+            if (generalBtn && catBtn && generalPanel && catPanel) {
+                if (tab === 'general') {
+                    generalBtn.classList.add('active');
+                    generalBtn.setAttribute('aria-selected', 'true');
+                    catBtn.classList.remove('active');
+                    catBtn.setAttribute('aria-selected', 'false');
+
+                    generalPanel.classList.add('active');
+                    catPanel.classList.remove('active');
+                } else {
+                    catBtn.classList.add('active');
+                    catBtn.setAttribute('aria-selected', 'true');
+                    generalBtn.classList.remove('active');
+                    generalBtn.setAttribute('aria-selected', 'false');
+
+                    catPanel.classList.add('active');
+                    generalPanel.classList.remove('active');
+                }
             }
         }
 
@@ -355,7 +452,18 @@
         document.getElementById("ideology-label").innerHTML = ideology;
         document.getElementById("ideology-desc").innerHTML = ideologyDesc;
 
-        // Closest Countries
+       // 7 Axes Categories definition
+        const CATEGORIES = [
+            { id: "integration", name: "Integration", userScore: europeanism,   color: "#2563eb", left: "Europeanism",  right: "Euroscepticism" },
+            { id: "economy",     name: "Economy",     userScore: socialism,     color: "#e11d48", left: "Socialism",    right: "Liberalism" },
+            { id: "culture",     name: "Culture",     userScore: progressivism, color: "#9333ea", left: "Progressivism",right: "Conservatism" },
+            { id: "ecology",     name: "Ecology",     userScore: ecologism,     color: "#059669", left: "Ecologism",    right: "Productivism" },
+            { id: "foreign",     name: "Geopolitics", userScore: atlanticism,   color: "#0ea5e9", left: "Atlanticism",  right: "Continentalism" },
+            { id: "migration",   name: "Migration",   userScore: sanctuary,     color: "#06b6d4", left: "Sanctuary",    right: "Fortress" },
+            { id: "horizon",     name: "Horizon",     userScore: beyondeurope,  color: "#0d9488", left: "Beyond",       right: "Within" }
+        ];
+
+        // Closest Countries Calculation & Rendering
         var countryMatches = [];
         if (typeof countries !== 'undefined') {
             var maxDist = 100 * Math.sqrt(7);
@@ -382,6 +490,8 @@
             countryMatches.sort(function(a, b) {
                 return a.dist - b.dist;
             });
+
+            // 1. General Top 10 list
             var top10 = countryMatches.slice(0, 10);
             var listEl = document.getElementById("closest-countries-list");
             if (listEl) {
@@ -402,9 +512,66 @@
                     </div>`;
                 }).join('');
             }
+
+            // 2. Closest Country per category (7 axes)
+            var catCountryListEl = document.getElementById("closest-countries-categories-list");
+            if (catCountryListEl) {
+                var countryDistMap = {};
+                countryMatches.forEach(function(cm) {
+                    countryDistMap[cm.code] = cm.dist;
+                });
+
+                var categoryCountryMatches = CATEGORIES.map(function(cat) {
+                    var sorted = countries.slice().map(function(c) {
+                        var val = (c.stats[cat.id] !== undefined ? c.stats[cat.id] : 50);
+                        var diff = Math.abs(val - cat.userScore);
+                        var pct = Math.max(0, 100 - diff);
+                        return {
+                            country: c,
+                            diff: diff,
+                            match: pct.toFixed(1)
+                        };
+                    }).sort(function(a, b) {
+                        if (a.diff !== b.diff) {
+                            return a.diff - b.diff;
+                        }
+                        var distA = countryDistMap[a.country.code.toLowerCase()] || 0;
+                        var distB = countryDistMap[b.country.code.toLowerCase()] || 0;
+                        return distA - distB;
+                    });
+
+                    return {
+                        category: cat,
+                        item: sorted[0]
+                    };
+                });
+
+                catCountryListEl.innerHTML = categoryCountryMatches.map(function(match) {
+                    var cat = match.category;
+                    var c = match.item.country;
+                    var pct = match.item.match;
+                    var flagUrl = getCountryFlagUrl(c);
+                    return `
+                    <div class="country-card category-card">
+                        <div class="category-axis-badge" style="background-color: ${cat.color};" title="${cat.name} Axis: ${cat.left} vs. ${cat.right}">
+                            ${cat.name}
+                        </div>
+                        <img class="country-flag" crossorigin="anonymous" src="${flagUrl}" alt="${c.name} flag">
+                        <div class="country-info">
+                            <div class="country-name-row">
+                                <span class="country-name" title="${c.name}">${c.name}</span>
+                                <span class="country-pct" style="color: ${cat.color};">${pct}%</span>
+                            </div>
+                            <div class="country-bar-track">
+                                <div class="country-bar-fill" style="width: ${pct}%; background: linear-gradient(90deg, ${cat.color}, #60a5fa);"></div>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
         }
 
-        // Closest Parties (Top 5 on page, Top 3 on card)
+        // Closest Parties Calculation & Rendering
         var partyMatches = [];
         if (typeof parties !== 'undefined') {
             var maxDist = 100 * Math.sqrt(7);
@@ -433,8 +600,8 @@
                 return a.dist - b.dist;
             });
 
-            // Top 5 closest parties shown on page
-            var top5Parties = partyMatches.slice(0, 5);
+            // 1. General Top 5 parties list
+            var top5Parties = partyMatches.slice(0, 10);
             var listElParties = document.getElementById("closest-parties-list");
             if (listElParties) {
                 listElParties.innerHTML = top5Parties.map(function(p, i) {
@@ -455,6 +622,68 @@
                             </div>
                             <div class="party-bar-track">
                                 <div class="party-bar-fill" style="width: ${p.match}%; background: linear-gradient(90deg, ${p.color}, #60a5fa);"></div>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+
+            // 2. Closest Party per category (7 axes)
+            var catPartyListEl = document.getElementById("closest-parties-categories-list");
+            if (catPartyListEl) {
+                var partyDistMap = {};
+                partyMatches.forEach(function(pm) {
+                    partyDistMap[pm.abbr] = pm.dist;
+                });
+
+                var categoryPartyMatches = CATEGORIES.map(function(cat) {
+                    var sorted = parties.slice().map(function(p) {
+                        var val = (p.stats[cat.id] !== undefined ? p.stats[cat.id] : 50);
+                        var diff = Math.abs(val - cat.userScore);
+                        var pct = Math.max(0, 100 - diff);
+                        return {
+                            party: p,
+                            diff: diff,
+                            match: pct.toFixed(1)
+                        };
+                    }).sort(function(a, b) {
+                        if (a.diff !== b.diff) {
+                            return a.diff - b.diff;
+                        }
+                        var distA = partyDistMap[a.party.abbr] || 0;
+                        var distB = partyDistMap[b.party.abbr] || 0;
+                        return distA - distB;
+                    });
+
+                    return {
+                        category: cat,
+                        item: sorted[0]
+                    };
+                });
+
+                catPartyListEl.innerHTML = categoryPartyMatches.map(function(match) {
+                    var cat = match.category;
+                    var p = match.item.party;
+                    var pct = match.item.match;
+                    var symbolHtml = '';
+                    if (p.logo && p.logo.trim() !== "") {
+                        symbolHtml = `<img class="party-logo" crossorigin="anonymous" src="${p.logo}" alt="${p.abbr} logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="party-badge" style="background-color: ${p.color}; display: none;">${p.abbr}</div>`;
+                    } else {
+                        symbolHtml = `<div class="party-badge" style="background-color: ${p.color};">${p.abbr}</div>`;
+                    }
+                    return `
+                    <div class="party-card category-card">
+                        <div class="category-axis-badge" style="background-color: ${cat.color};" title="${cat.name} Axis: ${cat.left} vs. ${cat.right}">
+                            ${cat.name}
+                        </div>
+                        ${symbolHtml}
+                        <div class="party-info">
+                            <div class="party-name-row">
+                                <span class="party-name" title="${p.name}">${p.name}</span>
+                                <span class="party-pct" style="color: ${cat.color};">${pct}%</span>
+                            </div>
+                            <div class="party-bar-track">
+                                <div class="party-bar-fill" style="width: ${pct}%; background: linear-gradient(90deg, ${p.color || cat.color}, #60a5fa);"></div>
                             </div>
                         </div>
                     </div>`;
