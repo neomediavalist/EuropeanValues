@@ -575,7 +575,8 @@ div.withineurope { background-color: var(--color-withineurope); }
     color: #60a5fa;
 }
 
-.country-flag {
+.country-flag,
+.party-logo {
     width: 44px;
     height: 30px;
     object-fit: cover;
@@ -583,6 +584,8 @@ div.withineurope { background-color: var(--color-withineurope); }
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
     flex-shrink: 0;
+    background: transparent;
+    padding: 0;
 }
 
 .country-info {
@@ -784,17 +787,6 @@ div.withineurope { background-color: var(--color-withineurope); }
 .party-rank.top-rank {
     color: #60a5fa;
 }
-.party-logo {
-    width: 44px;
-    height: 30px;
-    object-fit: contain;
-    background-color: var(--card-bg-elevated);
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-    flex-shrink: 0;
-    padding: 2px;
-}
 .party-badge {
     width: 44px;
     height: 30px;
@@ -806,7 +798,7 @@ div.withineurope { background-color: var(--color-withineurope); }
     font-size: 0.72rem;
     color: #ffffff;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
     flex-shrink: 0;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
@@ -852,6 +844,136 @@ div.withineurope { background-color: var(--color-withineurope); }
     height: 100%;
     border-radius: 9999px;
     transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ==========================================
+   Folder Tab System (Countries & Parties)
+   ========================================== */
+.folder-container {
+    margin-top: 1.25rem;
+    position: relative;
+}
+
+.folder-tabs {
+    display: flex;
+    gap: 6px;
+    padding-left: 12px;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 2;
+}
+
+.folder-tab {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 10px 22px;
+    background-color: var(--card-bg-elevated);
+    color: var(--text-dim);
+    border: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-active);
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    cursor: pointer;
+    transition: var(--smooth-transition);
+    user-select: none;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    width: auto;
+}
+
+.folder-tab:hover {
+    color: var(--text-primary);
+    background-color: var(--card-bg);
+    transform: none;
+    box-shadow: none;
+}
+
+.folder-tab.active {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border-color: var(--border-active);
+    border-bottom: 1px solid var(--card-bg);
+    box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.folder-tab svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.folder-body {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-active);
+    border-radius: var(--radius-sm);
+    padding: 1.5rem 1.25rem;
+    box-shadow: var(--soft-shadow);
+    position: relative;
+    z-index: 1;
+}
+
+.folder-panel {
+    display: none;
+}
+
+.folder-panel.active {
+    display: block;
+    animation: folderFadeIn 0.25s ease-out;
+}
+
+@keyframes folderFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(3px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.folder-panel-desc {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+}
+
+/* Category Badge for Per-Axis Items */
+.category-axis-badge {
+    min-width: 95px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    padding: 0 6px;
+    box-sizing: border-box;
+}
+
+/* Card elevation contrast inside folder body */
+.folder-body .country-card,
+.folder-body .party-card {
+    background-color: var(--card-bg-elevated);
+}
+
+.folder-body .country-card:hover,
+.folder-body .party-card:hover {
+    background-color: var(--card-bg-elevated);
+    border-color: var(--border-active);
 }
 
 /* Mobile & Responsive Breakpoints */
@@ -904,5 +1026,22 @@ div.withineurope { background-color: var(--color-withineurope); }
     .footer-icon {
         width: 56px;
         height: 56px;
+    }
+    .folder-tabs {
+        padding-left: 6px;
+        gap: 4px;
+    }
+    .folder-tab {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+        gap: 6px;
+    }
+    .folder-body {
+        padding: 1.25rem 0.85rem;
+    }
+    .category-axis-badge {
+        min-width: 78px;
+        font-size: 0.65rem;
+        padding: 0 4px;
     }
 }
